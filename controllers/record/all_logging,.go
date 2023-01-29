@@ -45,7 +45,7 @@ func AllLogging() gin.HandlerFunc {
 			roles = append(roles, singleRoles)
 		}
 
-		c.JSON(http.StatusCreated, bson.M{
+		c.JSON(http.StatusOK, bson.M{
 			"status":  http.StatusOK,
 			"message": "success",
 			"data":    roles,

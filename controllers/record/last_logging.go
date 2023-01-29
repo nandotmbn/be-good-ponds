@@ -30,7 +30,7 @@ func LastLogging() gin.HandlerFunc {
 		results := pointsCollection.FindOne(ctx, bson.M{"meter_id": meterIdObj}, myOptions)
 		results.Decode(&roles)
 
-		c.JSON(http.StatusCreated, bson.M{
+		c.JSON(http.StatusOK, bson.M{
 			"status":  http.StatusOK,
 			"message": "success",
 			"data":    roles,
