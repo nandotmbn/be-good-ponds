@@ -24,7 +24,7 @@ func LastLogging() gin.HandlerFunc {
 			return
 		}
 
-		var roles views.PayloadPoint
+		var roles views.LastPoint
 		myOptions := options.FindOne()
 		myOptions.SetSort(bson.M{"$natural": -1})
 		results := pointsCollection.FindOne(ctx, bson.M{"meter_id": meterIdObj}, myOptions)

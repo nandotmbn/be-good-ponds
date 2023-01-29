@@ -35,9 +35,9 @@ func AllLogging() gin.HandlerFunc {
 
 		defer results.Close(ctx)
 
-		var roles []views.PayloadPoint
+		var roles []views.LastPoint
 		for results.Next(ctx) {
-			var singleRoles views.PayloadPoint
+			var singleRoles views.LastPoint
 			if err = results.Decode(&singleRoles); err != nil {
 				c.JSON(http.StatusInternalServerError, bson.M{"data": "Internal server error"})
 			}
