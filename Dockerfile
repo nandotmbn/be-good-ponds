@@ -8,6 +8,7 @@ COPY go.sum ./
 RUN go mod download
 
 COPY *.go ./
+RUN ls
 
 RUN go build -o server
 
