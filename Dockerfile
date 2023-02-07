@@ -10,10 +10,8 @@ RUN ls
 
 #DEPLOY
 FROM gcr.io/distroless/base-debian10
-WORKDIR /usr/src/good-ponds
-RUN pwd
-RUN ls
+WORKDIR /
 
+EXPOSE 8080
 COPY --from=build /docker-server /docker-server
-
-CMD [ "/usr/src/good-ponds/server" ]
+ENTRYPOINT ["/docker-gs-ping"]
