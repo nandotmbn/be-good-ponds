@@ -5,12 +5,15 @@ WORKDIR /app
 COPY . ./
 RUN go mod download
 
-RUN go build -o server
+RUN go build -o /docker-server
+RUN ls
 
 #DEPLOY
 FROM gcr.io/distroless/base-debian10
 WORKDIR /usr/src/good-ponds
+RUN pwd
+RUN ls
 
-COPY --from=build server /usr/src/good-ponds
+COPY --from=build /docker-server /docker-server
 
 CMD [ "/usr/src/good-ponds/server" ]
