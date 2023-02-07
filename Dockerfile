@@ -16,4 +16,4 @@ ARG GIN_MODE=release
 
 EXPOSE 8080
 COPY --from=build /docker-server /docker-server
-ENTRYPOINT ["/docker-gs-ping"]
+ENTRYPOINT ["/docker-server"]
