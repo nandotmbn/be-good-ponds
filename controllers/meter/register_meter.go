@@ -1,4 +1,4 @@
-package controller_things
+package controller_meter
 
 import (
 	"context"
@@ -17,21 +17,21 @@ import (
 
 var validate = validator.New()
 
-var thingsCollection *mongo.Collection = configs.GetCollection(configs.DB, "meter")
+var meterCollection *mongo.Collection = configs.GetCollection(configs.DB, "meter")
 
 func RegisterMeter() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-		var things models.Meter
+		var meter models.Meter
 		defer cancel()
-		c.BindJSON(&things)
+		c.BindJSON(&meter)
 
-		if validationErr := validate.Struct(&things); validationErr != nil {
+		if validationErr := validate.Struct(&meter); validationErr != nil {
 			c.JSON(http.StatusBadRequest, bson.M{"data": validationErr.Error()})
 			return
 		}
 
-		count, err_ := thingsCollection.CountDocuments(ctx, bson.M{"meter_name": things.MeterName})
+		count, err_ := meterCollection.CountDocuments(ctx, bson.M{"meter_name": meter.MeterName})
 
 		if err_ != nil {
 			c.JSON(http.StatusInternalServerError, bson.M{"data": "Internal server error"})
@@ -39,22 +39,22 @@ func RegisterMeter() gin.HandlerFunc {
 		}
 
 		if count >= 1 {
-			c.JSON(http.StatusBadRequest, bson.M{"data": "Things name has been taken"})
+			c.JSON(http.StatusBadRequest, bson.M{"data": "Meter name has been taken"})
 			return
 		}
 
-		bytes, errors := bcrypt.GenerateFromPassword([]byte(things.Password), 14)
+		bytes, errors := bcrypt.GenerateFromPassword([]byte(meter.Password), 14)
 		if errors != nil {
 			c.JSON(http.StatusBadRequest, bson.M{"data": "Password tidak valid"})
 		}
 
-		newThings := models.Meter{
-			MeterName: things.MeterName,
+		newMeter := models.Meter{
+			MeterName: meter.MeterName,
 			Password:  string(bytes),
 			CreatedAt: time.Now(),
 		}
 
-		result, err := thingsCollection.InsertOne(ctx, newThings)
+		result, err := meterCollection.InsertOne(ctx, newMeter)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, bson.M{"data": err.Error()})
 			return
@@ -62,7 +62,7 @@ func RegisterMeter() gin.HandlerFunc {
 
 		finalView := views.MeterView{
 			MeterId:   result.InsertedID,
-			MeterName: things.MeterName,
+			MeterName: meter.MeterName,
 		}
 
 		c.JSON(http.StatusCreated, bson.M{
