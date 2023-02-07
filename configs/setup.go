@@ -4,26 +4,29 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 	"time"
 
+	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func ConnectDB() *mongo.Client {
-	mongoUri := "mongodb+srv://gdscpens:gdscpens@gdscpens.t46b00s.mongodb.net/?retryWrites=true&w=majority"
-	// if gin.Mode() == "debug" {
-	// 	err := godotenv.Load()
-	// 	if err != nil {
-	// 		log.Fatal("Error loading .env file")
-	// 	}
+	mongoUri := ""
+	if gin.Mode() == "debug" {
+		err := godotenv.Load()
+		if err != nil {
+			log.Fatal("Error loading .env file")
+		}
 
-	// 	mongoUri = os.Getenv("MONGOURI")
-	// } else {
-	// 	mongoUri = os.Getenv("MONGOURI")
-	// }
+		mongoUri = os.Getenv("MONGOURI")
+	} else {
+		mongoUri = os.Getenv("MONGOURI")
+	}
 
-	// fmt.Println(mongoUri)
+	fmt.Println(mongoUri)
 
 	client, err := mongo.NewClient(options.Client().ApplyURI(mongoUri))
 	if err != nil {
