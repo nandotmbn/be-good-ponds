@@ -26,6 +26,8 @@ func ConnectDB() *mongo.Client {
 		mongoUri = os.Getenv("MONGOURI")
 	}
 
+	fmt.Println(mongoUri)
+
 	client, err := mongo.NewClient(options.Client().ApplyURI(mongoUri))
 	if err != nil {
 		log.Fatal(err)
