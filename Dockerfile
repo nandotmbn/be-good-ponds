@@ -2,7 +2,7 @@
 FROM golang:1.19-buster AS build
 
 WORKDIR /app
-COPY . ./
+COPY . .
 RUN go mod download
 
 RUN go build -o /docker-server
