@@ -1,5 +1,5 @@
 # BUILD
-FROM golang:1.16-apline
+FROM golang:1.16-buster AS build
 
 WORKDIR /app
 RUN pwd
