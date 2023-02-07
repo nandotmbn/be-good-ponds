@@ -11,7 +11,7 @@ RUN go build -o /docker-server
 FROM gcr.io/distroless/base-debian10
 WORKDIR /
 
-ARG MONGOURI=mongodb+srv://gdscpens:gdscpens@gdscpens.t46b00s.mongodb.net/?retryWrites=true&w=majority
+ARG MONGOURI=
 ARG GIN_MODE=release
 
 EXPOSE 8080
