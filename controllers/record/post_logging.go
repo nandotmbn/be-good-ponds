@@ -26,7 +26,7 @@ var meterCollection = configs.GetCollection(configs.DB, "meter")
 func RecordLogging() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-		var pointPayload views.PayloadPoint
+		var pointPayload views.PayloadRecord
 		defer cancel()
 		var meterId = c.Param("meter_id")
 		c.BindJSON(&pointPayload)
@@ -70,11 +70,12 @@ func RecordLogging() gin.HandlerFunc {
 			return
 		}
 
-		finalView := views.FinalPoint{
+		finalView := views.FinalRecord{
 			Id:          result.InsertedID,
 			Acidity:     pointPayload.Acidity,
 			Salinity:    pointPayload.Salinity,
 			Temperature: pointPayload.Temperature,
+			Oxygen:      pointPayload.Oxygen,
 			CreatedAt:   time.Now(),
 		}
 
