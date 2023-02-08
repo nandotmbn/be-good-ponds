@@ -61,6 +61,7 @@ func RecordLogging() gin.HandlerFunc {
 			Acidity:     pointPayload.Acidity,
 			Salinity:    pointPayload.Salinity,
 			Temperature: pointPayload.Temperature,
+			Oxygen:      pointPayload.Oxygen,
 			CreatedAt:   time.Now().UTC(),
 		}
 
